@@ -1,0 +1,76 @@
+import { createAppKit } from '@reown/appkit/react'
+import type { AppKitOptions } from '@reown/appkit'
+
+import { WagmiProvider } from 'wagmi'
+import { useState } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+import { ActionButtonList } from './components/ActionButtonList'
+import { SmartContractActionButtonList } from './components/SmartContractActionButtonList'
+import { InfoList } from './components/InfoList'
+import { projectId, metadata, networks, wagmiAdapter } from './config'
+
+import { ReownAuthentication } from '@reown/appkit-siwx'
+
+import "./App.css"
+
+const queryClient = new QueryClient()
+
+const generalConfig = {
+  projectId,
+  networks,
+  metadata,
+  // Add the following code line
+  themeMode: 'light' as const,
+  themeVariables: {
+    '--w3m-accent': '#000000',
+  }
+}
+
+// Create modal
+const config: AppKitOptions = {
+  adapters: [wagmiAdapter],
+  ...generalConfig,
+  features: {
+    analytics: true // Optional - defaults to your Cloud configuration
+  },
+  siwx: new ReownAuthentication()
+}
+
+createAppKit(config)
+
+export function App() {
+  const [transactionHash, setTransactionHash] = useState<`0x${string}` | undefined>(undefined);
+  const [signedMsg, setSignedMsg] = useState('');
+  const [balance, setBalance] = useState('');
+
+  const receiveHash = (hash: `0x${string}`) => {
+    setTransactionHash(hash); // Update the state with the transaction hash
+  };
+
+  const receiveSignedMsg = (signedMsg: string) => {
+    setSignedMsg(signedMsg); // Update the state with the transaction hash
+  };
+
+  const receivebalance = (balance: string) => {
+    setBalance(balance)
+  }
+
+
+  return (
+    <div className={"pages"}>
+     
+      <h1>AppKit Wagmi React dApp Example</h1>
+      <WagmiProvider config={wagmiAdapter.wagmiConfig}>     
+      <QueryClientProvider client={queryClient}> 
+            <appkit-button /> 
+            <ActionButtonList sendHash={receiveHash} sendSignMsg={receiveSignedMsg} sendBalance={receivebalance}/>    
+            <SmartContractActionButtonList />
+            <InfoList hash={transactionHash} signedMsg={signedMsg} balance={balance}/>
+         </QueryClientProvider> 
+      </WagmiProvider>
+    </div>
+  )
+}
+
+export default App
