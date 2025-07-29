@@ -10,7 +10,7 @@ import { SmartContractActionButtonList } from './components/SmartContractActionB
 import { InfoList } from './components/InfoList'
 import { projectId, metadata, networks, wagmiAdapter } from './config'
 
-import { ReownAuthentication } from '@reown/appkit-siwx'
+//import { ReownAuthentication } from '@reown/appkit-siwx'
 
 import "./App.css"
 
@@ -34,7 +34,7 @@ const config: AppKitOptions = {
   features: {
     analytics: true // Optional - defaults to your Cloud configuration
   },
-  siwx: new ReownAuthentication()
+ // siwx: new ReownAuthentication()
 }
 
 createAppKit(config)
