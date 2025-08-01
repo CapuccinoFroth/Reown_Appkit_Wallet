@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ActionButtonList } from './components/ActionButtonList'
 import { SmartContractActionButtonList } from './components/SmartContractActionButtonList'
 import { InfoList } from './components/InfoList'
+import { PayWithExchange } from './components/PayWithExchange'
 import { projectId, metadata, networks, wagmiAdapter } from './config'
 
 //import { ReownAuthentication } from '@reown/appkit-siwx'
@@ -67,6 +68,7 @@ export function App() {
             <ActionButtonList sendHash={receiveHash} sendSignMsg={receiveSignedMsg} sendBalance={receivebalance}/>    
             <SmartContractActionButtonList />
             <InfoList hash={transactionHash} signedMsg={signedMsg} balance={balance}/>
+            <PayWithExchange />
          </QueryClientProvider> 
       </WagmiProvider>
     </div>
